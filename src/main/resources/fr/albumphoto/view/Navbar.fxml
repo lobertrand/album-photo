@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.2"
+      fx:controller="fr.albumphoto.controller.NavbarController">
+
+    <MenuBar BorderPane.alignment="CENTER">
+        <Menu mnemonicParsing="false" text="Album">
+            <MenuItem mnemonicParsing="false" text="Exporter l'album" onAction="#exportAlbum"/>
+            <MenuItem mnemonicParsing="false" text="Importer un album" onAction="#importAlbum"/>
+            <MenuItem mnemonicParsing="false" text="Quitter l'application" onAction="#quitApplication"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Outils">
+            <MenuItem mnemonicParsing="false" text="Renommer l'album" onAction="#renameAlbum"/>
+        </Menu>
+    </MenuBar>
+
+</VBox>

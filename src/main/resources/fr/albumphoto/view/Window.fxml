@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.2"
+            fx:controller="fr.albumphoto.controller.WindowController">
+
+    <top>
+        <fx:include source="Navbar.fxml"/>
+    </top>
+    <center>
+        <fx:include source="Album.fxml"/>
+    </center>
+    <right>
+        <fx:include source="Gallery.fxml"/>
+    </right>
+
+</BorderPane>

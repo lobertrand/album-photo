@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.albumphoto.controller.GalleryController">
+
+    <Button onAction="#addImages" text="Ajouter des photos"
+            AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+
+    <ScrollPane AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="30">
+        <FlowPane fx:id="imageGrid"/>
+    </ScrollPane>
+
+</AnchorPane>
