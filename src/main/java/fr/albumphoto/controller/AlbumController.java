@@ -33,7 +33,7 @@ public class AlbumController implements Initializable {
 
         updateShownPage();
 
-        app.events.on(ALBUM_PAGE_ADDED, page -> {
+        app.events.onEvent(ALBUM_PAGE_ADDED, page -> {
             pageIndex = app.getAlbum().getPages().size() - 1;
             updateShownPage();
         });

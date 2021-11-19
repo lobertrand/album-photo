@@ -11,14 +11,14 @@ public class EventRegister {
     private final Map<Event<Object>, List<Consumer<Object>>> callbacks = new HashMap<>();
 
     @SuppressWarnings("unchecked")
-    public <T> void on(Event<T> event, Consumer<T> callback) {
+    public <T> void onEvent(Event<T> event, Consumer<T> callback) {
         if (!callbacks.containsKey(event)) {
             callbacks.put((Event<Object>) event, new ArrayList<>());
         }
         callbacks.get(event).add((Consumer<Object>) callback);
     }
 
-    public <T> void remove(Event<T> event, Consumer<T> callback) {
+    public <T> void removeEventHandler(Event<T> event, Consumer<T> callback) {
         if (callbacks.containsKey(event)) {
             var callbackList = callbacks.get(event);
             callbackList.remove(callback);
@@ -28,7 +28,7 @@ public class EventRegister {
         }
     }
 
-    public <T> void fire(Event<T> event, T eventValue) {
+    public <T> void fireEvent(Event<T> event, T eventValue) {
         if (callbacks.containsKey(event)) {
             for (Consumer<Object> callback : callbacks.get(event)) {
                 callback.accept(eventValue);
