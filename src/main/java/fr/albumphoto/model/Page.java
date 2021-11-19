@@ -1,5 +1,9 @@
 package fr.albumphoto.model;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class Page {
 
     private String title;
@@ -21,6 +25,17 @@ public class Page {
     public Page setImagePath(String imagePath) {
         this.imagePath = imagePath;
         return this;
+    }
+
+    public static Page namedFromImagePath(String imagePath) {
+        var parts = imagePath.split("[\\\\/]");
+        var title = parts.length == 0
+                ? "Page sans nom"
+                : parts[parts.length - 1];
+
+        return new Page()
+                .setImagePath(imagePath)
+                .setTitle(title);
     }
 
     @Override

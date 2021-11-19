@@ -46,7 +46,7 @@ public class AppState {
                                .collect(Collectors.toList());
 
         var albumPages = new ArrayList<Page>();
-        var page = new Page().setTitle("Première image").setImagePath(imagePaths.get(0));
+        var page = Page.namedFromImagePath(imagePaths.get(0));
         albumPages.add(page);
 
         var appState = new AppState();

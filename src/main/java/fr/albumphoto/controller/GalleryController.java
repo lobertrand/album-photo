@@ -52,7 +52,7 @@ public class GalleryController implements Initializable {
         imageContainer.setOnMouseReleased(event -> {
             var appState = AppState.getInstance();
             var album = appState.getAlbum();
-            var page = new Page().setImagePath(imagePath).setTitle("Nouvelle page");
+            var page = Page.namedFromImagePath(imagePath);
             album.getPages().add(page);
             appState.events.fire(Event.ALBUM_PAGE_ADDED, page);
         });

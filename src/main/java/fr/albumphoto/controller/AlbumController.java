@@ -21,17 +21,21 @@ public class AlbumController implements Initializable {
     public Text pageTitle;
     @FXML
     public Text pageNumber;
+    @FXML
+    public Text albumTitle;
 
     private int pageIndex = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        updateImage();
-
         var appState = AppState.getInstance();
+        albumTitle.setText(appState.getAlbum().getName());
+
+        updateShownPage();
+
         appState.events.on(ALBUM_PAGE_ADDED, page -> {
             pageIndex = appState.getAlbum().getPages().size() - 1;
-            updateImage();
+            updateShownPage();
         });
     }
 
@@ -42,7 +46,7 @@ public class AlbumController implements Initializable {
         var album = AppState.getInstance().getAlbum();
         var pagesCount = album.getPages().size();
         pageIndex = (pageIndex + pagesCount - 1) % pagesCount;
-        updateImage();
+        updateShownPage();
     }
 
     @FXML
@@ -52,10 +56,10 @@ public class AlbumController implements Initializable {
         var album = AppState.getInstance().getAlbum();
         var pagesCount = album.getPages().size();
         pageIndex = (pageIndex + 1) % pagesCount;
-        updateImage();
+        updateShownPage();
     }
 
-    private void updateImage() {
+    private void updateShownPage() {
         var album = AppState.getInstance().getAlbum();
         var pages = album.getPages();
         if (pageIndex < pages.size()) {
