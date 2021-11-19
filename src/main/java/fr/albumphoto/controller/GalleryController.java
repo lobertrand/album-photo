@@ -2,6 +2,7 @@ package fr.albumphoto.controller;
 
 import fr.albumphoto.model.App;
 import fr.albumphoto.model.Page;
+import fr.albumphoto.model.event.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +17,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static fr.albumphoto.model.event.Event.ALBUM_PAGE_ADDED;
-import static fr.albumphoto.model.event.Event.GALLERY_IMAGE_ADDED;
 
 public class GalleryController implements Initializable {
 
@@ -33,7 +33,7 @@ public class GalleryController implements Initializable {
             imageGrid.getChildren().add(createImageComponent(imagePath));
         }
 
-        app.events.onEvent(GALLERY_IMAGE_ADDED, imagePath -> {
+        app.events.onEvent(Event.GALLERY_IMAGE_ADDED, imagePath -> {
             // Mise à jour de l'interface
             imageGrid.getChildren().add(createImageComponent(imagePath));
         });
@@ -56,7 +56,7 @@ public class GalleryController implements Initializable {
             var album = app.getAlbum();
             var page = Page.namedFromImagePath(imagePath);
             album.getPages().add(page);
-            app.events.fireEvent(ALBUM_PAGE_ADDED, page);
+            app.events.emitEvent(ALBUM_PAGE_ADDED, page);
         });
 
         return imageContainer;
@@ -74,6 +74,6 @@ public class GalleryController implements Initializable {
         var app = App.getInstance();
         var imagePath = file.getAbsolutePath();
         app.getGallery().getImagePaths().add(imagePath);
-        app.events.fireEvent(GALLERY_IMAGE_ADDED, imagePath);
+        app.events.emitEvent(Event.GALLERY_IMAGE_ADDED, imagePath);
     }
 }

@@ -12,7 +12,7 @@
     <!-- Titre de l'album -->
     <Text fx:id="albumTitle" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-    <!-- Affiche une page de l'album -->
+    <!-- Une page de l'album -->
     <Text fx:id="pageTitle" style="-fx-font-size: 20px;"/>
     <ImageView fitWidth="500" fitHeight="500" preserveRatio="true"
                fx:id="imageView"/>

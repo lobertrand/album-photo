@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class EventRegister {
+public class EventEmitter {
 
     private final Map<Event<Object>, List<Consumer<Object>>> callbacks = new HashMap<>();
 
@@ -28,7 +28,7 @@ public class EventRegister {
         }
     }
 
-    public <T> void fireEvent(Event<T> event, T eventValue) {
+    public <T> void emitEvent(Event<T> event, T eventValue) {
         if (callbacks.containsKey(event)) {
             for (Consumer<Object> callback : callbacks.get(event)) {
                 callback.accept(eventValue);

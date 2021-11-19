@@ -1,6 +1,7 @@
 package fr.albumphoto.controller;
 
 import fr.albumphoto.model.App;
+import fr.albumphoto.model.event.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,8 +11,6 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static fr.albumphoto.model.event.Event.ALBUM_PAGE_ADDED;
 
 public class AlbumController implements Initializable {
 
@@ -33,7 +32,7 @@ public class AlbumController implements Initializable {
 
         updateShownPage();
 
-        app.events.onEvent(ALBUM_PAGE_ADDED, page -> {
+        app.events.onEvent(Event.ALBUM_PAGE_ADDED, page -> {
             pageIndex = app.getAlbum().getPages().size() - 1;
             updateShownPage();
         });

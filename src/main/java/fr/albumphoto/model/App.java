@@ -1,18 +1,16 @@
 package fr.albumphoto.model;
 
-import fr.albumphoto.model.event.EventRegister;
+import fr.albumphoto.model.event.EventEmitter;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class App {
 
     private Album album;
     private Gallery gallery;
 
-    public final EventRegister events = new EventRegister();
+    public final EventEmitter events = new EventEmitter();
 
     private static App instance;
 
@@ -34,21 +32,22 @@ public class App {
     }
 
     private static App makeDefaultApp() {
-        var imageFolder = new File("/home/loic/Bureau/sample_images");
+        var imagePaths = new ArrayList<String>();
+        var albumPages = new ArrayList<Page>();
+
+        // Tente de remplir la galerie et l'album avec des images d'exemple
+        var imageFolder = new File("sample_images");
         var imageFiles = imageFolder.listFiles();
         if (imageFiles == null) {
-            System.err.println("Sample image files not found");
-            imageFiles = new File[0];
+            System.err.println("Folder 'sample_images' not found");
+        } else {
+            for (File imageFile : imageFiles) {
+                imagePaths.add(imageFile.getAbsolutePath());
+            }
+            albumPages.add(Page.namedFromImagePath(imagePaths.get(0)));
         }
 
-        var imagePaths = Arrays.stream(imageFiles)
-                               .map(File::getAbsolutePath)
-                               .collect(Collectors.toList());
-
-        var albumPages = new ArrayList<Page>();
-        var page = Page.namedFromImagePath(imagePaths.get(0));
-        albumPages.add(page);
-
+        // Crée le modèle initial de l'application
         var app = new App();
         app.gallery = new Gallery()
                 .setImagePaths(imagePaths);

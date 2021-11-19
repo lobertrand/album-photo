@@ -8,12 +8,12 @@
 
     <MenuBar BorderPane.alignment="CENTER">
         <Menu mnemonicParsing="false" text="Album">
-            <MenuItem mnemonicParsing="false" text="Exporter l'album" onAction="#exportAlbum"/>
-            <MenuItem mnemonicParsing="false" text="Importer un album" onAction="#importAlbum"/>
-            <MenuItem mnemonicParsing="false" text="Quitter l'application" onAction="#quitApplication"/>
+            <MenuItem mnemonicParsing="false" text="Exporter l'album"/>
+            <MenuItem mnemonicParsing="false" text="Importer un album"/>
+            <MenuItem mnemonicParsing="false" text="Quitter l'application"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Outils">
-            <MenuItem mnemonicParsing="false" text="Renommer l'album" onAction="#renameAlbum"/>
+            <MenuItem mnemonicParsing="false" text="Renommer l'album"/>
         </Menu>
     </MenuBar>
 
