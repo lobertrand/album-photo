@@ -69,6 +69,8 @@ public class App {
         return app;
     }
 
+    // Fonctionnalités de l'application
+
     public void addGalleryImage(String imagePath) {
         gallery.getImagePaths().add(imagePath);
         events.emitEvent(Event.GALLERY_IMAGE_ADDED, imagePath);

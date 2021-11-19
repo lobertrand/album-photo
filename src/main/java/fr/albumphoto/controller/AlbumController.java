@@ -27,10 +27,10 @@ public class AlbumController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         var app = App.getInstance();
         albumTitle.setText(app.getAlbum().getName());
-        showCurrentPage();
+        refreshPage();
 
-        app.events.onEvent(Event.ALBUM_PAGE_ADDED, page -> showCurrentPage());
-        app.events.onEvent(Event.ALBUM_PAGE_TURNED, page -> showCurrentPage());
+        app.events.onEvent(Event.ALBUM_PAGE_ADDED, page -> refreshPage());
+        app.events.onEvent(Event.ALBUM_PAGE_TURNED, page -> refreshPage());
     }
 
     @FXML
@@ -43,7 +43,7 @@ public class AlbumController implements Initializable {
         App.getInstance().nextPage();
     }
 
-    private void showCurrentPage() {
+    private void refreshPage() {
         var app = App.getInstance();
         var page = app.getCurrentPage();
         if (page == null) {
