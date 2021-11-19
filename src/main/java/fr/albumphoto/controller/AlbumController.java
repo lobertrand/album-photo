@@ -23,58 +23,40 @@ public class AlbumController implements Initializable {
     @FXML
     public Text pageNumber;
 
-    private int pageIndex = 0;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         var app = App.getInstance();
         albumTitle.setText(app.getAlbum().getName());
+        showCurrentPage();
 
-        updateShownPage();
-
-        app.events.onEvent(Event.ALBUM_PAGE_ADDED, page -> {
-            pageIndex = app.getAlbum().getPages().indexOf(page);
-            updateShownPage();
-        });
+        app.events.onEvent(Event.ALBUM_PAGE_ADDED, page -> showCurrentPage());
+        app.events.onEvent(Event.ALBUM_PAGE_TURNED, page -> showCurrentPage());
     }
 
     @FXML
     public void previousPage(ActionEvent actionEvent) {
-        var album = App.getInstance().getAlbum();
-        var pagesCount = album.getPages().size();
-        if (pagesCount > 0) {
-            pageIndex = (pageIndex + pagesCount - 1) % pagesCount;
-        } else {
-            pageIndex = 0;
-        }
-        updateShownPage();
+        App.getInstance().previousPage();
     }
 
     @FXML
     public void nextPage(ActionEvent actionEvent) {
-        var album = App.getInstance().getAlbum();
-        var pagesCount = album.getPages().size();
-        if (pagesCount > 0) {
-            pageIndex = (pageIndex + 1) % pagesCount;
-        } else {
-            pageIndex = 0;
-        }
-        updateShownPage();
+        App.getInstance().nextPage();
     }
 
-    private void updateShownPage() {
-        var album = App.getInstance().getAlbum();
-        var pages = album.getPages();
-        if (pages.isEmpty()) {
+    private void showCurrentPage() {
+        var app = App.getInstance();
+        var page = app.getCurrentPage();
+        if (page == null) {
             imageView.setImage(null);
             pageTitle.setText("");
             pageNumber.setText("Page 0 / 0");
         } else {
-            var page = pages.get(pageIndex);
+            var pageIndex = app.getCurrentPageIndex();
+            var pagesCount = app.getAlbum().getPages().size();
             var image = new Image("file:" + page.getImagePath(), 500, 500, true, true);
             imageView.setImage(image);
             pageTitle.setText(page.getTitle());
-            pageNumber.setText(String.format("Page %d / %d", pageIndex + 1, pages.size()));
+            pageNumber.setText(String.format("Page %d / %d", pageIndex + 1, pagesCount));
         }
     }
 }

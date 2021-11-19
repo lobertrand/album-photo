@@ -45,7 +45,7 @@ public class GalleryController implements Initializable {
         var file = fileChooser.showOpenDialog(null);
 
         // Mise à jour du modèle
-        App.getInstance().addImageToGallery(file.getAbsolutePath());
+        App.getInstance().addGalleryImage(file.getAbsolutePath());
     }
 
     private VBox createImageComponent(String imagePath) {
@@ -62,7 +62,7 @@ public class GalleryController implements Initializable {
 
         imageContainer.setOnMouseReleased(event -> {
             // Mise à jour du modèle
-            App.getInstance().addPageToAlbum(imagePath);
+            App.getInstance().addAlbumPage(imagePath);
         });
 
         return imageContainer;

@@ -6,6 +6,7 @@ public class Event<T> {
 
     public static final Event<String> GALLERY_IMAGE_ADDED = new Event<>();
     public static final Event<Page> ALBUM_PAGE_ADDED = new Event<>();
+    public static final Event<Page> ALBUM_PAGE_TURNED = new Event<>();
 
     private Event() {}
 

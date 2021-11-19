@@ -10,6 +10,8 @@ public class App {
 
     private Album album;
     private Gallery gallery;
+    private int currentPageIndex;
+
     public final EventEmitter events = new EventEmitter();
 
     private static App instance;
@@ -31,6 +33,14 @@ public class App {
         return gallery;
     }
 
+    public int getCurrentPageIndex() {
+        return currentPageIndex;
+    }
+
+    public Page getCurrentPage() {
+        return album.getPages().get(currentPageIndex);
+    }
+
     private static App makeDefaultApp() {
         var imagePaths = new ArrayList<String>();
         var albumPages = new ArrayList<Page>();
@@ -44,7 +54,8 @@ public class App {
             for (File imageFile : imageFiles) {
                 imagePaths.add(imageFile.getAbsolutePath());
             }
-            albumPages.add(Page.fromImagePath(imagePaths.get(0)));
+            var page = Page.fromImagePath(imagePaths.get(0));
+            albumPages.add(page);
         }
 
         // Crée le modèle initial de l'application
@@ -54,17 +65,38 @@ public class App {
         app.album = new Album()
                 .setName("Album sans nom")
                 .setPages(albumPages);
+        app.currentPageIndex = 0;
         return app;
     }
 
-    public void addImageToGallery(String imagePath) {
+    public void addGalleryImage(String imagePath) {
         gallery.getImagePaths().add(imagePath);
         events.emitEvent(Event.GALLERY_IMAGE_ADDED, imagePath);
     }
 
-    public void addPageToAlbum(String imagePath) {
+    public void addAlbumPage(String imagePath) {
         var page = Page.fromImagePath(imagePath);
         album.getPages().add(page);
         events.emitEvent(Event.ALBUM_PAGE_ADDED, page);
+    }
+
+    public void previousPage() {
+        var pagesCount = album.getPages().size();
+        if (pagesCount > 0) {
+            currentPageIndex = (currentPageIndex + pagesCount - 1) % pagesCount;
+        } else {
+            currentPageIndex = 0;
+        }
+        events.emitEvent(Event.ALBUM_PAGE_TURNED, getCurrentPage());
+    }
+
+    public void nextPage() {
+        var pagesCount = album.getPages().size();
+        if (pagesCount > 0) {
+            currentPageIndex = (currentPageIndex + 1) % pagesCount;
+        } else {
+            currentPageIndex = 0;
+        }
+        events.emitEvent(Event.ALBUM_PAGE_TURNED, getCurrentPage());
     }
 }
