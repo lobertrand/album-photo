@@ -1,6 +1,6 @@
 package fr.albumphoto.controller;
 
-import fr.albumphoto.model.AppState;
+import fr.albumphoto.model.App;
 import fr.albumphoto.model.Page;
 import fr.albumphoto.model.event.Event;
 import javafx.event.ActionEvent;
@@ -25,13 +25,13 @@ public class GalleryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        var appState = AppState.getInstance();
-        var gallery = appState.getGallery();
+        var app = App.getInstance();
+        var gallery = app.getGallery();
         for (String imagePath : gallery.imagePaths) {
             imageGrid.getChildren().add(createImageComponent(imagePath));
         }
 
-        appState.events.on(Event.GALLERY_IMAGE_ADDED, imagePath -> {
+        app.events.on(Event.GALLERY_IMAGE_ADDED, imagePath -> {
             // Mise à jour de l'interface
             imageGrid.getChildren().add(createImageComponent(imagePath));
         });
@@ -50,11 +50,11 @@ public class GalleryController implements Initializable {
         imageContainer.setStyle("-fx-border-color: lightgray");
 
         imageContainer.setOnMouseReleased(event -> {
-            var appState = AppState.getInstance();
-            var album = appState.getAlbum();
+            var app = App.getInstance();
+            var album = app.getAlbum();
             var page = Page.namedFromImagePath(imagePath);
             album.getPages().add(page);
-            appState.events.fire(Event.ALBUM_PAGE_ADDED, page);
+            app.events.fire(Event.ALBUM_PAGE_ADDED, page);
         });
 
         return imageContainer;
@@ -69,9 +69,9 @@ public class GalleryController implements Initializable {
         var file = fileChooser.showOpenDialog(null);
 
         // Mise à jour du modèle
-        var appState = AppState.getInstance();
+        var app = App.getInstance();
         var imagePath = file.getAbsolutePath();
-        appState.getGallery().getImagePaths().add(imagePath);
-        appState.events.fire(Event.GALLERY_IMAGE_ADDED, imagePath);
+        app.getGallery().getImagePaths().add(imagePath);
+        app.events.fire(Event.GALLERY_IMAGE_ADDED, imagePath);
     }
 }

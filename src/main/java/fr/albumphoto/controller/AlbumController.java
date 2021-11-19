@@ -1,6 +1,6 @@
 package fr.albumphoto.controller;
 
-import fr.albumphoto.model.AppState;
+import fr.albumphoto.model.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,13 +28,13 @@ public class AlbumController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        var appState = AppState.getInstance();
-        albumTitle.setText(appState.getAlbum().getName());
+        var app = App.getInstance();
+        albumTitle.setText(app.getAlbum().getName());
 
         updateShownPage();
 
-        appState.events.on(ALBUM_PAGE_ADDED, page -> {
-            pageIndex = appState.getAlbum().getPages().size() - 1;
+        app.events.on(ALBUM_PAGE_ADDED, page -> {
+            pageIndex = app.getAlbum().getPages().size() - 1;
             updateShownPage();
         });
     }
@@ -43,7 +43,7 @@ public class AlbumController implements Initializable {
     public void previousPage(ActionEvent actionEvent) {
         System.out.println("AlbumController.previousPage");
 
-        var album = AppState.getInstance().getAlbum();
+        var album = App.getInstance().getAlbum();
         var pagesCount = album.getPages().size();
         pageIndex = (pageIndex + pagesCount - 1) % pagesCount;
         updateShownPage();
@@ -53,14 +53,14 @@ public class AlbumController implements Initializable {
     public void nextPage(ActionEvent actionEvent) {
         System.out.println("AlbumController.nextPage");
 
-        var album = AppState.getInstance().getAlbum();
+        var album = App.getInstance().getAlbum();
         var pagesCount = album.getPages().size();
         pageIndex = (pageIndex + 1) % pagesCount;
         updateShownPage();
     }
 
     private void updateShownPage() {
-        var album = AppState.getInstance().getAlbum();
+        var album = App.getInstance().getAlbum();
         var pages = album.getPages();
         if (pageIndex < pages.size()) {
             var page = pages.get(pageIndex);

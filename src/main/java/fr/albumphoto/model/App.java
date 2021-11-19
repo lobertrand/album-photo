@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class AppState {
+public class App {
 
     private Album album;
     private Gallery gallery;
 
     public final EventRegister events = new EventRegister();
 
-    private static AppState instance;
+    private static App instance;
 
-    private AppState() {}
+    private App() {}
 
     public Album getAlbum() {
         return album;
@@ -26,14 +26,14 @@ public class AppState {
         return gallery;
     }
 
-    public static AppState getInstance() {
+    public static App getInstance() {
         if (instance == null) {
-            instance = makeDefaultAppState();
+            instance = makeDefaultApp();
         }
         return instance;
     }
 
-    private static AppState makeDefaultAppState() {
+    private static App makeDefaultApp() {
         var imageFolder = new File("/home/loic/Bureau/sample_images");
         var imageFiles = imageFolder.listFiles();
         if (imageFiles == null) {
@@ -49,12 +49,12 @@ public class AppState {
         var page = Page.namedFromImagePath(imagePaths.get(0));
         albumPages.add(page);
 
-        var appState = new AppState();
-        appState.gallery = new Gallery()
+        var app = new App();
+        app.gallery = new Gallery()
                 .setImagePaths(imagePaths);
-        appState.album = new Album()
+        app.album = new Album()
                 .setName("Album sans nom")
                 .setPages(albumPages);
-        return appState;
+        return app;
     }
 }
