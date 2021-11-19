@@ -23,7 +23,7 @@ public class Page {
         return this;
     }
 
-    public static Page namedFromImagePath(String imagePath) {
+    public static Page fromImagePath(String imagePath) {
         var parts = imagePath.split("[\\\\/]");
         var title = parts.length == 0
                 ? "Page sans nom"

@@ -1,7 +1,6 @@
 package fr.albumphoto.controller;
 
 import fr.albumphoto.model.App;
-import fr.albumphoto.model.Page;
 import fr.albumphoto.model.event.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,8 +14,6 @@ import javafx.stage.FileChooser;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static fr.albumphoto.model.event.Event.ALBUM_PAGE_ADDED;
 
 public class GalleryController implements Initializable {
 
@@ -39,29 +36,6 @@ public class GalleryController implements Initializable {
         });
     }
 
-    private VBox createImageComponent(String imagePath) {
-        var image = new Image("file:" + imagePath, 500, 500, true, true);
-        var imageView = new ImageView(image);
-        imageView.setFitWidth(IMAGE_SIZE);
-        imageView.setFitHeight(IMAGE_SIZE);
-        imageView.setPreserveRatio(true);
-        var imageContainer = new VBox(imageView);
-        imageContainer.setPrefWidth(IMAGE_SIZE);
-        imageContainer.setPrefHeight(IMAGE_SIZE);
-        imageContainer.setAlignment(Pos.CENTER);
-        imageContainer.setStyle("-fx-border-color: lightgray");
-
-        imageContainer.setOnMouseReleased(event -> {
-            var app = App.getInstance();
-            var album = app.getAlbum();
-            var page = Page.namedFromImagePath(imagePath);
-            album.getPages().add(page);
-            app.events.emitEvent(ALBUM_PAGE_ADDED, page);
-        });
-
-        return imageContainer;
-    }
-
     @FXML
     public void addImages(ActionEvent actionEvent) {
         // Sélection d'un fichier image à ajouter à la galerie
@@ -71,9 +45,26 @@ public class GalleryController implements Initializable {
         var file = fileChooser.showOpenDialog(null);
 
         // Mise à jour du modèle
-        var app = App.getInstance();
-        var imagePath = file.getAbsolutePath();
-        app.getGallery().getImagePaths().add(imagePath);
-        app.events.emitEvent(Event.GALLERY_IMAGE_ADDED, imagePath);
+        App.getInstance().addImageToGallery(file.getAbsolutePath());
+    }
+
+    private VBox createImageComponent(String imagePath) {
+        var image = new Image("file:" + imagePath, 150, 150, true, true);
+        var imageView = new ImageView(image);
+        imageView.setFitWidth(IMAGE_SIZE);
+        imageView.setFitHeight(IMAGE_SIZE);
+        imageView.setPreserveRatio(true);
+        var imageContainer = new VBox(imageView);
+        imageContainer.setPrefWidth(IMAGE_SIZE);
+        imageContainer.setPrefHeight(IMAGE_SIZE);
+        imageContainer.setAlignment(Pos.CENTER);
+        imageContainer.setStyle("-fx-border-color: lightgray; -fx-cursor: hand;");
+
+        imageContainer.setOnMouseReleased(event -> {
+            // Mise à jour du modèle
+            App.getInstance().addPageToAlbum(imagePath);
+        });
+
+        return imageContainer;
     }
 }

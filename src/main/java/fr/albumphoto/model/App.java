@@ -1,5 +1,6 @@
 package fr.albumphoto.model;
 
+import fr.albumphoto.model.event.Event;
 import fr.albumphoto.model.event.EventEmitter;
 
 import java.io.File;
@@ -9,10 +10,16 @@ public class App {
 
     private Album album;
     private Gallery gallery;
-
     public final EventEmitter events = new EventEmitter();
 
     private static App instance;
+
+    public static App getInstance() {
+        if (instance == null) {
+            instance = makeDefaultApp();
+        }
+        return instance;
+    }
 
     private App() {}
 
@@ -22,13 +29,6 @@ public class App {
 
     public Gallery getGallery() {
         return gallery;
-    }
-
-    public static App getInstance() {
-        if (instance == null) {
-            instance = makeDefaultApp();
-        }
-        return instance;
     }
 
     private static App makeDefaultApp() {
@@ -44,7 +44,7 @@ public class App {
             for (File imageFile : imageFiles) {
                 imagePaths.add(imageFile.getAbsolutePath());
             }
-            albumPages.add(Page.namedFromImagePath(imagePaths.get(0)));
+            albumPages.add(Page.fromImagePath(imagePaths.get(0)));
         }
 
         // Crée le modèle initial de l'application
@@ -55,5 +55,16 @@ public class App {
                 .setName("Album sans nom")
                 .setPages(albumPages);
         return app;
+    }
+
+    public void addImageToGallery(String imagePath) {
+        gallery.getImagePaths().add(imagePath);
+        events.emitEvent(Event.GALLERY_IMAGE_ADDED, imagePath);
+    }
+
+    public void addPageToAlbum(String imagePath) {
+        var page = Page.fromImagePath(imagePath);
+        album.getPages().add(page);
+        events.emitEvent(Event.ALBUM_PAGE_ADDED, page);
     }
 }
